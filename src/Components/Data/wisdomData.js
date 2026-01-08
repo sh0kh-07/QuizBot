@@ -2,10 +2,20 @@ export const wisdomData = [
     {
         id: 1,
         text: {
-            ru: "Образование — самое мощное оружие, которое можно использовать, чтобы изменить мир.",
-            en: "Education is the most powerful weapon which you can use to change the world.",
-            uz: "Ta'lim dunyoni o'zgartirish uchun foydalanishingiz mumkin bo'lgan eng kuchli quroldir."
+            ru: "Жизнь прекрасна, просто мы сами её усложняем.",
+            en: "Life is beautiful, we just complicate it ourselves.",
+            uz: "Hayot go‘zal, faqat biz uni o‘zgacha qiyinlashtiramiz."
         },
-        publishedDate: "2024-02-05"
+        publishedDate: "2026-01-08"
+    },
+    {
+        id: 2,
+        text: {
+            ru: "Иногда, чтобы построить своё, приходится рушить чужое.",
+            en: "Sometimes, to build your own, you have to break someone else's.",
+            uz: "Ba'zan o‘zingiznikini qurish uchun boshqalarnikini buzishingiz kerak bo‘ladi."
+        },
+        publishedDate: "2026-01-08"
     }
+
 ];
