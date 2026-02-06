@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { LogOut, User, ChevronDown, Menu } from "lucide-react";
+import { LogOut, User, ChevronDown, Menu, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 
-export default function AdminHeader({ active, sidebarOpen, ...props }) {
+export default function AdminHeader({ active, sidebarOpen, showBackButton = false, ...props }) {
     const navigate = useNavigate();
     const [openMenu, setOpenMenu] = useState(false);
     const menuRef = useRef(null);
@@ -11,6 +11,10 @@ export default function AdminHeader({ active, sidebarOpen, ...props }) {
     const handleLogout = () => {
         localStorage.clear();
         navigate("/login");
+    };
+
+    const handleGoBack = () => {
+        navigate(-1);
     };
 
     // Закрытие меню при клике вне
@@ -41,7 +45,7 @@ export default function AdminHeader({ active, sidebarOpen, ...props }) {
             }}
         >
             {/* Левая часть */}
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
                 <Button
                     onClick={active}
                     className="px-4 py-3 rounded-xl
@@ -50,6 +54,20 @@ export default function AdminHeader({ active, sidebarOpen, ...props }) {
                 >
                     <Menu className="w-5 h-5" />
                 </Button>
+
+                {/* Кнопка "Назад" */}
+                {showBackButton && (
+                    <Button
+                        onClick={handleGoBack}
+                        className="px-4 py-3 rounded-xl
+                                   bg-gray-500/90 hover:bg-gray-600
+                                   text-white transition-all
+                                   flex items-center gap-2"
+                    >
+                        <ArrowLeft className="w-5 h-5" />
+                        <span className="hidden sm:inline">Orqaga</span>
+                    </Button>
+                )}
             </div>
 
             {/* Правая часть */}

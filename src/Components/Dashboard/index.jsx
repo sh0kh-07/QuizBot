@@ -1,7 +1,9 @@
+import EmptyData from "../UI/NoData/EmptyData";
+
 export default function Dashboard(){
     return(
         <>
-            Helllo
+            <EmptyData text={'Hozircha hech narsa'}/>
         </>
     )
 }
