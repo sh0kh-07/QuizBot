@@ -1,3 +1,4 @@
+import Archive from "../Components/Archive";
 import Dashboard from "../Components/Dashboard";
 import Create from "../Components/Question/Create";
 import Quiz from "../Components/Quiz";
@@ -23,5 +24,10 @@ export const AdminRoutes = [
         name: 'Question yaratish',
         path: '/question/create/:id',
         component: <Create />
+    },
+    {
+        name: 'Archive',
+        path: '/archive',
+        component: <Archive />
     },
 ]

@@ -72,7 +72,7 @@ export default function Edit({ refresh, data }) {
             </Button>
 
             {/* Modal */}
-            <Dialog open={open} handler={handleOpen} size="sm">
+            <Dialog open={open} handler={handleOpen} size="xl">
                 <DialogHeader>
                     <Typography variant="h5">
                         Quizni o‘zgartirish

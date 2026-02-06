@@ -48,7 +48,7 @@ export default function Delete({ id, refresh }) {
 
             </Button>
             {/* MODAL */}
-            <Dialog open={open} handler={handleOpen} size="sm">
+            <Dialog open={open} handler={handleOpen} size="xl">
                 <DialogHeader>
                     <Typography variant="h5" className="text-red-600">
                         Savolni o‘chirish

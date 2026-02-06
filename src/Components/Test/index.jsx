@@ -291,15 +291,7 @@ export default function Test() {
                     </div>
 
                     {/* Кнопка */}
-                    <Button
-                        onClick={() => navigate("/")}
-                        className="w-full flex items-center justify-center gap-2"
-                        color="blue"
-                        size="lg"
-                    >
-                        <Home className="w-5 h-5" />
-                        Bosh sahifaga qaytish
-                    </Button>
+               
                 </div>
             </div>
         );

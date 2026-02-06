@@ -4,38 +4,28 @@ import { Calendar, Clock, Eye, FileText } from "lucide-react";
 import { QuizApi } from "../../utils/Controllers/QuizApi";
 import EmptyData from "../UI/NoData/EmptyData";
 import Loading from "../UI/Loadings/Loading";
-import Create from "./__components/Create";
-import Delete from "./__components/Delete";
-import Edit from "./__components/Edit";
+import Create from "../Quiz/__components/Create";
+import Delete from "../Quiz/__components/Delete";
+import Edit from "../Quiz/__components/Edit";
 import { NavLink } from "react-router-dom";
-import Send from "./__components/Send";
+import Send from "../Quiz/__components/Send";
+import DownLaod from "../Quiz/__components/DownLoad";
 
-export default function QuizList() {
+export default function Archive() {
     const [quizzes, setQuizzes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
 
-    // Получаем сегодняшнюю дату в формате YYYY-MM-DD
-    const getTodayDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
+
 
     const fetchQuizzes = async (page = 1) => {
         try {
             setLoading(true);
 
-            const data = {
-                startDate: getTodayDate(),
-                endDate: getTodayDate(),
-                page: page
-            };
 
-            const res = await QuizApi.GetStartDate_EndDate(data);
+
+            const res = await QuizApi.Get(page);
             setQuizzes(res?.data?.data?.records || []);
             setCurrentPage(Number(res?.data?.data?.pagination?.currentPage || 1));
             setTotalPages(Number(res?.data?.data?.pagination?.totalPages || 1));
@@ -113,6 +103,7 @@ export default function QuizList() {
                                     <Delete refresh={fetchQuizzes} id={quiz?.id} />
                                     <Edit refresh={fetchQuizzes} data={quiz} />
                                     <Send quizId={quiz?.id} />
+                                    <DownLaod quizId={quiz?.id} />
                                 </div>
                             </CardBody>
                         </Card>

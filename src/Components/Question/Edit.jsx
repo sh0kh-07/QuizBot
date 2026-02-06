@@ -68,7 +68,7 @@ export default function Edit({ data, refresh }) {
             </Button>
 
             {/* MODAL */}
-            <Dialog open={open} handler={handleOpen} size="sm">
+            <Dialog open={open} handler={handleOpen} size="xl">
                 <DialogHeader>
                     <Typography variant="h5">
                         Savolni tahrirlash

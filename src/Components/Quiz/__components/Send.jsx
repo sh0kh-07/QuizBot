@@ -100,7 +100,7 @@ export default function Send({ quizId }) {
             </Button>
 
             {/* Modal */}
-            <Dialog open={open} handler={handleOpen} size="md">
+            <Dialog open={open} handler={handleOpen} size="xl">
                 <DialogHeader>
                     <Typography variant="h5">
                         Quizni guruhlarga jo'natish

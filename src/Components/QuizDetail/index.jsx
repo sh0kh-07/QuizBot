@@ -56,14 +56,14 @@ export default function QuizDetail() {
     return (
         <div className="space-y-6">
             {/* QUIZ INFO */}
-            <Info data={quiz} />
+            {/* <Info data={quiz} /> */}
 
             {/* HEADER */}
             <div className="flex items-center justify-between">
                 <Typography variant="h4">Savollar</Typography>
                 <NavLink to={`/question/create/${id}`}>
                     <Button className="bg-blue-500 hover:bg-blue-600">
-                        Yaratish +
+                         +
                     </Button>
                 </NavLink>
             </div>

@@ -66,11 +66,11 @@ export default function Create({ refresh }) {
                 onClick={handleOpen}
                 className="bg-blue-500 hover:bg-blue-600"
             >
-                Yaratish +
+                 +
             </Button>
 
             {/* Modal */}
-            <Dialog open={open} handler={handleOpen} size="sm">
+            <Dialog open={open} handler={handleOpen} size="xl">
                 <DialogHeader>
                     <Typography variant="h5">
                         Yangi Quiz yaratish
