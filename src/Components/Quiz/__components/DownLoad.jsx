@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { QuizApi } from "../../../utils/Controllers/QuizApi";
+import { Alert } from "../../../utils/Alert";
 
 export default function DownLoad({ quizId }) {
     const [loading, setLoading] = useState(false);
