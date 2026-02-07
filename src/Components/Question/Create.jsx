@@ -11,7 +11,7 @@ import {
 import { Plus, Trash2, Upload, X } from "lucide-react";
 import { QuestionApi } from "../../utils/Controllers/QuestionApi";
 import { Alert } from "../../utils/Alert";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 export default function CreateQuestion({ refresh }) {
     const { id } = useParams();
@@ -234,8 +234,8 @@ export default function CreateQuestion({ refresh }) {
                         <div
                             key={opt.id}
                             className={`border rounded-lg p-3 sm:p-4 transition-colors ${opt.isCorrect
-                                    ? "border-green-500 bg-green-50"
-                                    : "border-gray-200 hover:border-gray-300"
+                                ? "border-green-500 bg-green-50"
+                                : "border-gray-200 hover:border-gray-300"
                                 }`}
                         >
                             {/* Заголовок варианта */}
@@ -318,6 +318,15 @@ export default function CreateQuestion({ refresh }) {
                     >
                         {loading ? "Saqlanmoqda..." : "Savol yaratish"}
                     </Button>
+                    <NavLink to={`/quiz`}>
+                        <Button
+                            color="red"
+                            className=" w-full sm:flex-1 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                            size="sm"
+                        >
+                            Tugatish
+                        </Button>
+                    </NavLink>
                 </div>
             </CardBody>
         </Card>

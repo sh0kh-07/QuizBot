@@ -10,7 +10,19 @@ class QuizApi {
         return response;
     }
     static GetStartDate_EndDate = async (data) => {
-        const response = await $api.get(`/quizzes/page?startDate=${data?.startDate}&endDate=${data?.endDate}&page=${data?.page}`)
+        let url = `/quizzes/page?page=${data?.page || 1}`;
+
+        // Добавляем startDate только если он не null/undefined
+        if (data?.startDate) {
+            url += `&startDate=${data.startDate}`;
+        }
+
+        // Добавляем endDate только если он не null/undefined
+        if (data?.endDate) {
+            url += `&endDate=${data.endDate}`;
+        }
+
+        const response = await $api.get(url);
         return response;
     }
     static Get = async (page) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
-import { Calendar, Clock, Eye, FileText } from "lucide-react";
+import { Card, CardBody, Typography, Button, Select, Option } from "@material-tailwind/react";
+import { Calendar, Clock, Eye, FileText, Filter } from "lucide-react";
 import { QuizApi } from "../../utils/Controllers/QuizApi";
 import EmptyData from "../UI/NoData/EmptyData";
 import Loading from "../UI/Loadings/Loading";
@@ -16,21 +16,79 @@ export default function Archive() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [filterPeriod, setFilterPeriod] = useState("all");
 
+    // Функция для форматирования даты в YYYY-MM-DD
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
+    // Функция для расчета дат
+    const getDateRange = (period) => {
+        const now = new Date();
+        let startDate = null;
+        let endDate = formatDate(now); // Текущая дата
 
-    const fetchQuizzes = async (page = 1) => {
+        switch (period) {
+            case "week":
+                // Неделя назад
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                startDate = formatDate(weekAgo);
+                break;
+            case "month":
+                // Месяц назад
+                const monthAgo = new Date();
+                monthAgo.setMonth(monthAgo.getMonth() - 1);
+                startDate = formatDate(monthAgo);
+                break;
+            case "3months":
+                // 3 месяца назад
+                const threeMonthsAgo = new Date();
+                threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+                startDate = formatDate(threeMonthsAgo);
+                break;
+            case "year":
+                // Год назад
+                const yearAgo = new Date();
+                yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+                startDate = formatDate(yearAgo);
+                break;
+            default:
+                // Все время
+                return { startDate: null, endDate: null };
+        }
+
+        return { startDate, endDate };
+    };
+
+    const fetchQuizzes = async (page = 1, period = filterPeriod) => {
         try {
             setLoading(true);
 
+            const { startDate, endDate } = getDateRange(period);
 
+            // Формируем объект с параметрами
+            const params = {
+                page,
+                ...(startDate && { startDate }), // Добавляем только если startDate существует
+                ...(endDate && { endDate }),     // Добавляем только если endDate существует
+            };
 
-            const res = await QuizApi.Get(page);
+            console.log("Sending params:", params); // Для отладки
+
+            const res = await QuizApi.GetStartDate_EndDate(params);
+            console.log("API Response:", res?.data); // Для отладки
+
             setQuizzes(res?.data?.data?.records || []);
             setCurrentPage(Number(res?.data?.data?.pagination?.currentPage || 1));
             setTotalPages(Number(res?.data?.data?.pagination?.totalPages || 1));
         } catch (err) {
-            console.log(err);
+            console.log("Ошибка при загрузке квизов:", err);
+            setQuizzes([]);
         } finally {
             setLoading(false);
         }
@@ -41,7 +99,14 @@ export default function Archive() {
     }, []);
 
     const handlePageChange = (page) => {
+        setCurrentPage(page);
         fetchQuizzes(page);
+    };
+
+    const handleFilterChange = (value) => {
+        setFilterPeriod(value);
+        setCurrentPage(1);
+        fetchQuizzes(1, value);
     };
 
     if (loading) {
@@ -50,16 +115,56 @@ export default function Archive() {
 
     return (
         <div className="">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                 <Typography variant="h4" className="text-gray-800">
                     Quizlar
                 </Typography>
-                <Create refresh={fetchQuizzes} />
+
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                    {/* Фильтр по периоду */}
+                    <div className="flex-1 sm:flex-none sm:w-48">
+                        <Select
+                            label="Davr bo'yicha"
+                            value={filterPeriod}
+                            onChange={(value) => handleFilterChange(value)}
+                            className="bg-white"
+                        >
+                            <Option value="all">Barchasi</Option>
+                            <Option value="week">Oxirgi hafta</Option>
+                            <Option value="month">Oxirgi oy</Option>
+                            <Option value="3months">Oxirgi 3 oy</Option>
+                            <Option value="year">Oxirgi yil</Option>
+                        </Select>
+                    </div>
+
+                    {/* Кнопка создания */}
+                    <Create refresh={() => fetchQuizzes(currentPage, filterPeriod)} />
+                </div>
             </div>
+
+            {/* Информация о выбранном фильтре */}
+            {filterPeriod !== "all" && (
+                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2">
+                    <Filter className="w-4 h-4 text-blue-600" />
+                    <Typography className="text-sm text-blue-700">
+                        Ko'rsatilmoqda:{" "}
+                        {filterPeriod === "week" && "Oxirgi hafta"}
+                        {filterPeriod === "month" && "Oxirgi oy"}
+                        {filterPeriod === "3months" && "Oxirgi 3 oy"}
+                        {filterPeriod === "year" && "Oxirgi yil"}
+                    </Typography>
+                    <button
+                        onClick={() => handleFilterChange("all")}
+                        className="ml-auto text-xs text-blue-600 hover:text-blue-800 underline"
+                    >
+                        Tozalash
+                    </button>
+                </div>
+            )}
 
             {/* Список карточек */}
             {quizzes.length === 0 ? (
-                <EmptyData text={`Ma'lumot yo'q`} />
+                <EmptyData text={filterPeriod !== "all" ? "Tanlangan davrda ma'lumot yo'q" : "Ma'lumot yo'q"} />
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {quizzes.map((quiz) => (
@@ -100,8 +205,8 @@ export default function Archive() {
                                             <Eye className="w-4 h-4" /> Ko'rish
                                         </Button>
                                     </NavLink>
-                                    <Delete refresh={fetchQuizzes} id={quiz?.id} />
-                                    <Edit refresh={fetchQuizzes} data={quiz} />
+                                    <Delete refresh={() => fetchQuizzes(currentPage, filterPeriod)} id={quiz?.id} />
+                                    <Edit refresh={() => fetchQuizzes(currentPage, filterPeriod)} data={quiz} />
                                     <Send quizId={quiz?.id} />
                                     <DownLaod quizId={quiz?.id} />
                                 </div>
