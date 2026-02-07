@@ -33,6 +33,7 @@ export default function DownLoad({ quizId }) {
             window.URL.revokeObjectURL(url);
         } catch (error) {
             console.log(error);
+            Alert("Hali hech kim test ishlamagan", "error");
         } finally {
             setLoading(false);
         }
