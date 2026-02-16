@@ -17,7 +17,7 @@ export default function Edit({ data, refresh }) {
     const { id: quizId } = useParams();
 
     // URL для изображений (замените на ваш)
-    const IMAGE_BASE_URL = "https://dev.ithubs.uz/quiz/";
+    const IMAGE_BASE_URL = "https://dev.menejment2.uz/";
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);

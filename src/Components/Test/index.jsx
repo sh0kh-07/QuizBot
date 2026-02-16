@@ -14,7 +14,7 @@ export default function Test() {
     const navigate = useNavigate();
 
     // URL для изображений (замените на ваш актуальный URL)
-    const IMAGE_BASE_URL = "https://dev.ithubs.uz/quiz/";
+    const IMAGE_BASE_URL = "https://dev.menejment2.uz/";
 
     // ─── Ism bosqichi ───
     const [fullName, setFullName] = useState("");

@@ -27,7 +27,7 @@ export default function QuizDetail() {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
-    const IMAGE_BASE_URL = "https://dev.ithubs.uz/quiz/"; 
+    const IMAGE_BASE_URL = "https://dev.menejment2.uz/"; 
 
     const getQuiz = async () => {
         try {
